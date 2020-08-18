@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.api.printer.data;
 
 import com.api.printer.model.Impresora;
-import java.util.Calendar;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
 /**
- *
- * @author mendoza
+ * 
+ * @author login
  */
-public class Ticket_Consulta_Corte {
+public class TicketConsultaCorte {
     Impresora impresora = new Impresora();
-    Abrir_Puerto abrirPuerto = new Abrir_Puerto();
-    Cerrar_Puerto cerrarPuerto = new Cerrar_Puerto();
+    AbrirPuerto abrirPuerto = new AbrirPuerto();
+    CerrarPuerto cerrarPuerto = new CerrarPuerto();
     
     private static SerialPort serialPort;
     byte[] NEGRITAS = impresora.getNEGRITAS(); //LETRAS EN NEGRITAS
@@ -25,51 +19,98 @@ public class Ticket_Consulta_Corte {
     byte[] CUT = impresora.getCUT(); //CORTE PARCIAL
     byte[] ESP_SMALL = impresora.getESP_SMALL(); //ESPACIO PEQUEÑO
     byte[] ESP_MIDDLE = impresora.getESP_MIDDLE(); //ESPACIO MEDIANO
-    Calendar CALENDAR = impresora.getCALENDAR();
+    String FECHA = impresora.getFECHA(); //FECHA ACTUAL
+    String HORA = impresora.getHORA(); //HORA ACTUAL
     
-    //CREACIÓN DE TICKET DE CONSULTA DE CORTE
-    public void ticket_consulta_corte(
-                String fecha_inicio,
-                String hora_inicio,
-                String fecha_fin,
-                String hora_fin,
-                String unidad,
-                String ruta,
-                String ramal,
-                String operador,
-                String tipo_tarifa,
-                double tarifa,
-                int tarjetaPreferencialCantidad_cobrosNormales,
-                int tarjetaPreferencialCantidad_viajesGratis,
-                int tarjetaPreferencialCantidad_transbordos1,
-                int tarjetaPreferencialCantidad_transbordos2,
-                int tarjetaPreferencialCantidad_numTarjetas,
-                double tarjetaPreferencialMonto_cobrosNormales,
-                double tarjetaPreferencialMonto_viajesGratis,
-                double tarjetaPreferencialMonto_transbordos1,
-                double tarjetaPreferencialMonto_transbordos2,
-                double tarjetaPreferencialMonto_numTarjetas,
-                double tarjetaPreferencialMonto_total,
-                int tarjetaOrdinariosCantidad_cobrosNormales,
-                int tarjetaOrdinariosCantidad_viajesGratis,
-                int tarjetaOrdinariosCantidad_transbordos1,
-                int tarjetaOrdinariosCantidad_transbordos2,
-                int tarjetaOrdinariosCantidad_numTarjetas,
-                double tarjetaOrdinariosMonto_cobrosNormales,
-                double tarjetaOrdinariosMonto_viajesGratis,
-                double tarjetaOrdinariosMonto_transbordos1,
-                double tarjetaOrdinariosMonto_transbordos2,
-                double tarjetaOrdinariosMonto_numTarjetas,
-                double tarjetaOrdinariosMonto_total,
-                int pagosEfectivo_cantidadPasajes,
-                double pagosEfectivo_total,
-                int recargas,
-                double totalRecargas,
-                double totalCobradoEfectivo,
-                double totalCobradoTarjeta,
-                double totalCobrado
+    /**
+     * 
+     * CREACIÓN DE TICKET DE CONSULTA DE CORTE
+     * 
+     * @param fecha_inicio
+     * @param hora_inicio
+     * @param fecha_fin
+     * @param hora_fin
+     * @param unidad
+     * @param ruta
+     * @param ramal
+     * @param operador
+     * @param tipo_tarifa
+     * @param tarifa
+     * @param tarjetaPreferencialCantidad_cobrosNormales
+     * @param tarjetaPreferencialCantidad_viajesGratis
+     * @param tarjetaPreferencialCantidad_transbordos1
+     * @param tarjetaPreferencialCantidad_transbordos2
+     * @param tarjetaPreferencialCantidad_numTarjetas
+     * @param tarjetaPreferencialMonto_cobrosNormales
+     * @param tarjetaPreferencialMonto_viajesGratis
+     * @param tarjetaPreferencialMonto_transbordos1
+     * @param tarjetaPreferencialMonto_transbordos2
+     * @param tarjetaPreferencialMonto_numTarjetas
+     * @param tarjetaPreferencialMonto_total
+     * @param tarjetaOrdinariosCantidad_cobrosNormales
+     * @param tarjetaOrdinariosCantidad_viajesGratis
+     * @param tarjetaOrdinariosCantidad_transbordos1
+     * @param tarjetaOrdinariosCantidad_transbordos2
+     * @param tarjetaOrdinariosCantidad_numTarjetas
+     * @param tarjetaOrdinariosMonto_cobrosNormales
+     * @param tarjetaOrdinariosMonto_viajesGratis
+     * @param tarjetaOrdinariosMonto_transbordos1
+     * @param tarjetaOrdinariosMonto_transbordos2
+     * @param tarjetaOrdinariosMonto_numTarjetas
+     * @param tarjetaOrdinariosMonto_total
+     * @param pagosEfectivo_cantidadPasajes
+     * @param pagosEfectivo_total
+     * @param recargas
+     * @param totalRecargas
+     * @param totalCobradoEfectivo
+     * @param totalCobradoTarjeta
+     * @param totalCobrado
+     * @throws InterruptedException
+     * @throws SerialPortException 
+     */
+    public void print(
+        String fecha_inicio,
+        String hora_inicio,
+        String fecha_fin,
+        String hora_fin,
+        String unidad,
+        String ruta,
+        String ramal,
+        String operador,
+        String tipo_tarifa,
+        double tarifa,
+        int tarjetaPreferencialCantidad_cobrosNormales,
+        int tarjetaPreferencialCantidad_viajesGratis,
+        int tarjetaPreferencialCantidad_transbordos1,
+        int tarjetaPreferencialCantidad_transbordos2,
+        int tarjetaPreferencialCantidad_numTarjetas,
+        double tarjetaPreferencialMonto_cobrosNormales,
+        double tarjetaPreferencialMonto_viajesGratis,
+        double tarjetaPreferencialMonto_transbordos1,
+        double tarjetaPreferencialMonto_transbordos2,
+        double tarjetaPreferencialMonto_numTarjetas,
+        double tarjetaPreferencialMonto_total,
+        int tarjetaOrdinariosCantidad_cobrosNormales,
+        int tarjetaOrdinariosCantidad_viajesGratis,
+        int tarjetaOrdinariosCantidad_transbordos1,
+        int tarjetaOrdinariosCantidad_transbordos2,
+        int tarjetaOrdinariosCantidad_numTarjetas,
+        double tarjetaOrdinariosMonto_cobrosNormales,
+        double tarjetaOrdinariosMonto_viajesGratis,
+        double tarjetaOrdinariosMonto_transbordos1,
+        double tarjetaOrdinariosMonto_transbordos2,
+        double tarjetaOrdinariosMonto_numTarjetas,
+        double tarjetaOrdinariosMonto_total,
+        int pagosEfectivo_cantidadPasajes,
+        double pagosEfectivo_total,
+        int recargas,
+        double totalRecargas,
+        double totalCobradoEfectivo,
+        double totalCobradoTarjeta,
+        double totalCobrado
     ) throws InterruptedException, SerialPortException{
-        serialPort = abrirPuerto.abrir_puerto();
+        //ABRIR PUERTO DE IMPRESORA
+        serialPort = abrirPuerto.getSerialPort();
         //ACTIVO NEGRITAS
         serialPort.writeBytes(NEGRITAS);
 
@@ -158,7 +199,7 @@ public class Ticket_Consulta_Corte {
 
         serialPort.writeBytes(IMP_ESP);
         serialPort.writeBytes(CUT);
-
-        cerrarPuerto.cerrar_puerto(serialPort);            
+        //CERRAR PUERTO ENVIANDO EL YA ABIERTO
+        cerrarPuerto.closeSerialPort(serialPort);            
     }
 }

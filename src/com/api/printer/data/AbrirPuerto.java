@@ -1,24 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.api.printer.data;
 
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
 /**
- *
- * @author mendoza
+ * 
+ * @author login
  */
-public class Abrir_Puerto {
+public class AbrirPuerto {
+    private final SerialPort serialPort; 
+
+    public AbrirPuerto() {
+        this.serialPort = new SerialPort("COM4");
+    }
     
-    //SerialPort serialPort = new SerialPort("/dev/ttyUSB0"); //ACCESO AL PUERTO PARA IMPRIMIR \ LINUX
-    //SerialPort serialPort = new SerialPort("/dev/printer");
-    SerialPort serialPort = new SerialPort("COM4"); //ACCESO AL PUERTO PARA IMPRIMIR \ WINDOWS
-    
-    protected byte[] portReadBytes() throws SerialPortException {
+    /**
+     * 
+     * OBTENER LA LECTURA DE BYTES DEL PUERTO SERIAL
+     * 
+     * @param serialPort
+     * @throws SerialPortException 
+     *
+    protected byte[] portReadBytes(SerialPort serialPort) throws SerialPortException {
         // readBytes will block until the amount of data is read
         final byte[] first = serialPort.readBytes(1);
         
@@ -33,12 +36,18 @@ public class Abrir_Puerto {
             // return the combined data
             return combined;
         } else {
-            // return the data we read first
             return first;
         }
     }
+    */
     
-    public SerialPort abrir_puerto() throws SerialPortException{
+    /**
+     * ABRIR PUERTO CON SUS PARAMETROS RESPECTIVOS
+     * 
+     * @return TYPE SERIALPORT
+     * @throws SerialPortException 
+     */
+    protected SerialPort getSerialPort() throws SerialPortException{
         serialPort.openPort(); //ABRIR PUERTO
         serialPort.setParams(SerialPort.BAUDRATE_115200, 
                 SerialPort.DATABITS_8,

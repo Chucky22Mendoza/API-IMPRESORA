@@ -1,24 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.api.printer.data;
 
 import com.api.printer.model.Impresora;
-import java.util.Calendar;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
 /**
- *
- * @author mendoza
+ * 
+ * @author login
  */
-public class Ticket_Corte_Periodo {
+public class TicketCortePeriodo {
     
     Impresora impresora = new Impresora();
-    Abrir_Puerto abrirPuerto = new Abrir_Puerto();
-    Cerrar_Puerto cerrarPuerto = new Cerrar_Puerto();
+    AbrirPuerto abrirPuerto = new AbrirPuerto();
+    CerrarPuerto cerrarPuerto = new CerrarPuerto();
     
     private static SerialPort serialPort;
     byte[] NEGRITAS = impresora.getNEGRITAS(); //LETRAS EN NEGRITAS
@@ -26,82 +20,160 @@ public class Ticket_Corte_Periodo {
     byte[] CUT = impresora.getCUT(); //CORTE PARCIAL
     byte[] ESP_SMALL = impresora.getESP_SMALL(); //ESPACIO PEQUEÑO
     byte[] ESP_MIDDLE = impresora.getESP_MIDDLE(); //ESPACIO MEDIANO
-    Calendar CALENDAR = impresora.getCALENDAR();
+    String FECHA = impresora.getFECHA(); //FECHA ACTUAL
+    String HORA = impresora.getHORA(); //HORA ACTUAL
     
-    //CREACIÓN DE TICKET DEL CORTE DEL PERÍODO
-    public void ticket_corte_periodo(
-                String fecha_inicio,
-                String hora_inicio,
-                String fecha_corte,
-                String hora_corte,
-                String num_corte,
-                String unidad,
-                String ruta,
-                String ramal,
-                String operador,
-                String admin_corte,
-                String tipo_tarifa,
-                double tarifa,
-                int tarjetaPreferencialCantidad_cobrosNormales,
-                int tarjetaPreferencialCantidad_viajesGratis,
-                int tarjetaPreferencialCantidad_transbordos1,
-                int tarjetaPreferencialCantidad_transbordos2,
-                int tarjetaPreferencialCantidad_numTarjetas,
-                double tarjetaPreferencialMonto_cobrosNormales,
-                double tarjetaPreferencialMonto_viajesGratis,
-                double tarjetaPreferencialMonto_transbordos1,
-                double tarjetaPreferencialMonto_transbordos2,
-                double tarjetaPreferencialMonto_numTarjetas,
-                double tarjetaPreferencialMonto_total,
-                int tarjetaOrdinariosCantidad_cobrosNormales,
-                int tarjetaOrdinariosCantidad_viajesGratis,
-                int tarjetaOrdinariosCantidad_transbordos1,
-                int tarjetaOrdinariosCantidad_transbordos2,
-                int tarjetaOrdinariosCantidad_numTarjetas,
-                double tarjetaOrdinariosMonto_cobrosNormales,
-                double tarjetaOrdinariosMonto_viajesGratis,
-                double tarjetaOrdinariosMonto_transbordos1,
-                double tarjetaOrdinariosMonto_transbordos2,
-                double tarjetaOrdinariosMonto_numTarjetas,
-                double tarjetaOrdinariosMonto_total,
-                int preferencialDesgloce_estudiantes,
-                int preferencialDesgloce_infantes,
-                int preferencialDesgloce_3raEdad,
-                int preferencialDesgloce_capDif,
-                int preferencialDesgloce_cantidadPasajes,
-                double preferencialDesgloce_cobrado,
-                int pagosEfectivo_cantidadPasajes,
-                double pagosEfectivo_total,
-                int denominacionesRecibidas_cantidadM50c,
-                int denominacionesRecibidas_cantidadM1p,
-                int denominacionesRecibidas_cantidadB20p,
-                int denominacionesRecibidas_cantidadB200p,
-                int denominacionesRecibidas_cantidadM2p,
-                int denominacionesRecibidas_cantidadM5p,
-                int denominacionesRecibidas_cantidadB50p,
-                int denominacionesRecibidas_cantidadB500p,
-                int denominacionesRecibidas_cantidadM10p,
-                int denominacionesRecibidas_cantidadM20p,
-                int denominacionesRecibidas_cantidadB100p,
-                double denominacionesRecibidas_totalM50c,
-                double denominacionesRecibidas_totalM1p,
-                double denominacionesRecibidas_totalB20p,
-                double denominacionesRecibidas_totalB200p,
-                double denominacionesRecibidas_totalM2p,
-                double denominacionesRecibidas_totalM5p,
-                double denominacionesRecibidas_totalB50p,
-                double denominacionesRecibidas_totalB500p,
-                double denominacionesRecibidas_totalM10p,
-                double denominacionesRecibidas_totalM20p,
-                double denominacionesRecibidas_totalB100p,
-                double denominacionesRecibidas_totalRecibido,
-                int recargas,
-                double totalRecargas,
-                double totalCobradoEfectivo,
-                double totalCobradoTarjeta,
-                double totalCobrado
+    /**
+     * 
+     * CREACIÓN DE TICKET DEL CORTE DEL PERÍODO
+     * 
+     * @param fecha_inicio
+     * @param hora_inicio
+     * @param fecha_corte
+     * @param hora_corte
+     * @param num_corte
+     * @param unidad
+     * @param ruta
+     * @param ramal
+     * @param operador
+     * @param admin_corte
+     * @param tipo_tarifa
+     * @param tarifa
+     * @param tarjetaPreferencialCantidad_cobrosNormales
+     * @param tarjetaPreferencialCantidad_viajesGratis
+     * @param tarjetaPreferencialCantidad_transbordos1
+     * @param tarjetaPreferencialCantidad_transbordos2
+     * @param tarjetaPreferencialCantidad_numTarjetas
+     * @param tarjetaPreferencialMonto_cobrosNormales
+     * @param tarjetaPreferencialMonto_viajesGratis
+     * @param tarjetaPreferencialMonto_transbordos1
+     * @param tarjetaPreferencialMonto_transbordos2
+     * @param tarjetaPreferencialMonto_numTarjetas
+     * @param tarjetaPreferencialMonto_total
+     * @param tarjetaOrdinariosCantidad_cobrosNormales
+     * @param tarjetaOrdinariosCantidad_viajesGratis
+     * @param tarjetaOrdinariosCantidad_transbordos1
+     * @param tarjetaOrdinariosCantidad_transbordos2
+     * @param tarjetaOrdinariosCantidad_numTarjetas
+     * @param tarjetaOrdinariosMonto_cobrosNormales
+     * @param tarjetaOrdinariosMonto_viajesGratis
+     * @param tarjetaOrdinariosMonto_transbordos1
+     * @param tarjetaOrdinariosMonto_transbordos2
+     * @param tarjetaOrdinariosMonto_numTarjetas
+     * @param tarjetaOrdinariosMonto_total
+     * @param preferencialDesgloce_estudiantes
+     * @param preferencialDesgloce_infantes
+     * @param preferencialDesgloce_3raEdad
+     * @param preferencialDesgloce_capDif
+     * @param preferencialDesgloce_cantidadPasajes
+     * @param preferencialDesgloce_cobrado
+     * @param pagosEfectivo_cantidadPasajes
+     * @param pagosEfectivo_total
+     * @param denominacionesRecibidas_cantidadM50c
+     * @param denominacionesRecibidas_cantidadM1p
+     * @param denominacionesRecibidas_cantidadB20p
+     * @param denominacionesRecibidas_cantidadB200p
+     * @param denominacionesRecibidas_cantidadM2p
+     * @param denominacionesRecibidas_cantidadM5p
+     * @param denominacionesRecibidas_cantidadB50p
+     * @param denominacionesRecibidas_cantidadB500p
+     * @param denominacionesRecibidas_cantidadM10p
+     * @param denominacionesRecibidas_cantidadM20p
+     * @param denominacionesRecibidas_cantidadB100p
+     * @param denominacionesRecibidas_totalM50c
+     * @param denominacionesRecibidas_totalM1p
+     * @param denominacionesRecibidas_totalB20p
+     * @param denominacionesRecibidas_totalB200p
+     * @param denominacionesRecibidas_totalM2p
+     * @param denominacionesRecibidas_totalM5p
+     * @param denominacionesRecibidas_totalB50p
+     * @param denominacionesRecibidas_totalB500p
+     * @param denominacionesRecibidas_totalM10p
+     * @param denominacionesRecibidas_totalM20p
+     * @param denominacionesRecibidas_totalB100p
+     * @param denominacionesRecibidas_totalRecibido
+     * @param recargas
+     * @param totalRecargas
+     * @param totalCobradoEfectivo
+     * @param totalCobradoTarjeta
+     * @param totalCobrado
+     * @throws InterruptedException
+     * @throws SerialPortException 
+     */
+    public void print(
+        String fecha_inicio,
+        String hora_inicio,
+        String fecha_corte,
+        String hora_corte,
+        String num_corte,
+        String unidad,
+        String ruta,
+        String ramal,
+        String operador,
+        String admin_corte,
+        String tipo_tarifa,
+        double tarifa,
+        int tarjetaPreferencialCantidad_cobrosNormales,
+        int tarjetaPreferencialCantidad_viajesGratis,
+        int tarjetaPreferencialCantidad_transbordos1,
+        int tarjetaPreferencialCantidad_transbordos2,
+        int tarjetaPreferencialCantidad_numTarjetas,
+        double tarjetaPreferencialMonto_cobrosNormales,
+        double tarjetaPreferencialMonto_viajesGratis,
+        double tarjetaPreferencialMonto_transbordos1,
+        double tarjetaPreferencialMonto_transbordos2,
+        double tarjetaPreferencialMonto_numTarjetas,
+        double tarjetaPreferencialMonto_total,
+        int tarjetaOrdinariosCantidad_cobrosNormales,
+        int tarjetaOrdinariosCantidad_viajesGratis,
+        int tarjetaOrdinariosCantidad_transbordos1,
+        int tarjetaOrdinariosCantidad_transbordos2,
+        int tarjetaOrdinariosCantidad_numTarjetas,
+        double tarjetaOrdinariosMonto_cobrosNormales,
+        double tarjetaOrdinariosMonto_viajesGratis,
+        double tarjetaOrdinariosMonto_transbordos1,
+        double tarjetaOrdinariosMonto_transbordos2,
+        double tarjetaOrdinariosMonto_numTarjetas,
+        double tarjetaOrdinariosMonto_total,
+        int preferencialDesgloce_estudiantes,
+        int preferencialDesgloce_infantes,
+        int preferencialDesgloce_3raEdad,
+        int preferencialDesgloce_capDif,
+        int preferencialDesgloce_cantidadPasajes,
+        double preferencialDesgloce_cobrado,
+        int pagosEfectivo_cantidadPasajes,
+        double pagosEfectivo_total,
+        int denominacionesRecibidas_cantidadM50c,
+        int denominacionesRecibidas_cantidadM1p,
+        int denominacionesRecibidas_cantidadB20p,
+        int denominacionesRecibidas_cantidadB200p,
+        int denominacionesRecibidas_cantidadM2p,
+        int denominacionesRecibidas_cantidadM5p,
+        int denominacionesRecibidas_cantidadB50p,
+        int denominacionesRecibidas_cantidadB500p,
+        int denominacionesRecibidas_cantidadM10p,
+        int denominacionesRecibidas_cantidadM20p,
+        int denominacionesRecibidas_cantidadB100p,
+        double denominacionesRecibidas_totalM50c,
+        double denominacionesRecibidas_totalM1p,
+        double denominacionesRecibidas_totalB20p,
+        double denominacionesRecibidas_totalB200p,
+        double denominacionesRecibidas_totalM2p,
+        double denominacionesRecibidas_totalM5p,
+        double denominacionesRecibidas_totalB50p,
+        double denominacionesRecibidas_totalB500p,
+        double denominacionesRecibidas_totalM10p,
+        double denominacionesRecibidas_totalM20p,
+        double denominacionesRecibidas_totalB100p,
+        double denominacionesRecibidas_totalRecibido,
+        int recargas,
+        double totalRecargas,
+        double totalCobradoEfectivo,
+        double totalCobradoTarjeta,
+        double totalCobrado
     ) throws InterruptedException, SerialPortException{
-        serialPort = abrirPuerto.abrir_puerto();
+        //ABRIR PUERTO DE IMPRESORA
+        serialPort = abrirPuerto.getSerialPort();
         //ACTIVO NEGRITAS
         serialPort.writeBytes(NEGRITAS);
 
@@ -231,7 +303,7 @@ public class Ticket_Corte_Periodo {
 
         serialPort.writeBytes(IMP_ESP);
         serialPort.writeBytes(CUT);
-
-        cerrarPuerto.cerrar_puerto(serialPort);  
+        //CERRAR PUERTO ENVIANDO EL YA ABIERTO
+        cerrarPuerto.closeSerialPort(serialPort);  
     }
 }
